@@ -2,8 +2,8 @@ name: Concert Notification
 
 on:
   schedule:
-    - cron: "0 8 * * 1"   # każdy poniedziałek, 8:00 UTC
-  workflow_dispatch:        # umożliwia ręczne uruchomienie z zakładki Actions
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
 
 jobs:
   send-notification:
@@ -20,7 +20,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        working-directory: other-projects/concert-notif
 
       - name: Run script
         env:
