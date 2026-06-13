@@ -1,0 +1,30 @@
+name: Concert Notification
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"   # każdy poniedziałek, 8:00 UTC
+  workflow_dispatch:        # umożliwia ręczne uruchomienie z zakładki Actions
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        working-directory: other-projects/concert-notif
+
+      - name: Run script
+        env:
+          TM_API_KEY: ${{ secrets.TM_API_KEY }}
+          EMAIL: ${{ secrets.EMAIL }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python main.py
